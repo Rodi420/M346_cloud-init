@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 07.12.2022 v1.0
+# 07.12.2022 v1.1
 #
 #
 
@@ -13,8 +13,8 @@ echo "installed successfully" >> /var/log/could-init-output.log
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 echo \
-'deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
 #start install docker packages
