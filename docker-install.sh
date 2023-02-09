@@ -1,13 +1,19 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.4
+# 06.12.2022 v1.5
 # updated script for M169
 #
 
 logfile="/var/log/docker_installer_rta.log"
 delimiter="----------------------------------------------"
+runtimeStart=$(date +%s%N)
+clear
 
 #initial updates
+echo "$delimiter"
+echo "Please wait..."
+echo "$delimiter"
+
 echo "$delimiter" >> $logfile
 echo "update packages" >> $logfile
 echo "$delimiter" >> $logfile
@@ -35,7 +41,17 @@ echo "$delimiter" >> $logfile
 #test attempt
 echo "attempt docker test" >> $logfile
 echo "$delimiter" >> $logfile
-sudo docker run hello-world >> $logfile
+sudo docker run hello-world >> $logfile 2>&1
 echo "$delimiter" >> $logfile
 
+echo "$delimiter"
+echo "Script finished."
+echo "$delimiter"
 
+runtimeEnd=$(date +%s%N)
+runtimeDiff=$(($runtimeEnd - $runtimeStart))
+runtimeDiffSec=$(
+		awk "BEGIN { print ($runtimeDiff/1000000000) }"
+	)
+echo "${runtimeDiffSec}s elapsed." 2>&1 | tee -a $logfile
+echo "$delimiter" 2>&1 | tee -a $logfile
