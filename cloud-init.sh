@@ -1,16 +1,16 @@
 #!/bin/bash
 # R.Tavares
-# 07.12.2022 v1.4
+# 07.12.2022 v1.4.1
 #
 #
 
-logfile="/var/log/docker_installer_rta.log"
+logfile="/var/log/cloudinit_installer_rta.log"
 delimiter="----------------------------------------------"
 
 echo "$delimiter" >> $logfile
 echo "install packages" >> $logfile
 echo "$delimiter" >> $logfile
-sudo apt-get update
+sudo apt-get update >> $logfile
 echo "$delimiter" >> $logfile
 sudo apt-get install openjdk-18-jdk maven ca-certificates curl gnupg lsb-release --yes >> $logfile
 echo "$delimiter" >> $logfile
