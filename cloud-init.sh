@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 07.12.2022 v1.5.1
+# 07.12.2022 v1.5.2
 #
 #
 
@@ -15,7 +15,7 @@ clear
 echo -e "$delimiter\nPlease wait...\n$delimiter" 2>&1 | tee -a $logfile
 
 
-echo "$delimiter" >> $logfile
+
 echo "install packages" >> $logfile
 echo "$delimiter" >> $logfile
 sudo apt-get update >> $logfile

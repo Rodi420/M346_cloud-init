@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.5.1
+# 06.12.2022 v1.5.2
 # updated script for M169
 #
 
@@ -17,7 +17,7 @@ echo -e "$delimiter\nPlease wait...\n$delimiter" 2>&1 | tee -a $logfile
 
 #initial updates
 
-echo "$delimiter" >> $logfile
+
 echo "update packages" >> $logfile
 echo "$delimiter" >> $logfile
 sudo apt-get update >>$logfile
@@ -45,7 +45,7 @@ echo "$delimiter" >> $logfile
 echo "attempt docker test" >> $logfile
 echo "$delimiter" >> $logfile
 sudo docker run hello-world >> $logfile 2>&1
-echo "$delimiter" >> $logfile
+
 
 #displayed on screen and log
 echo -e "$delimiter\nScript finished.\n$delimiter\nSee Log at: '$logfile'\n$delimiter" 2>&1 | tee -a $logfile
