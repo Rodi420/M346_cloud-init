@@ -6,4 +6,4 @@ package_upgrade: true
 
 runcmd:
  - sudo su - ubuntu -c "git clone https://github.com/Rodi420/M346_cloud-init"
- - sudo su - ubuntu -c "cd M346_cloud-init && chmod 755 cloud-init.sh && sudo ./cloud-init.sh"
+ - sudo su - ubuntu -c "chmod -R 755 M346_cloud-init && cd M346_cloud-init && sudo ./docker-install.sh && sudo ./cloud-init.sh"
