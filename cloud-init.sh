@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 07.12.2022 v1.4.1
+# 07.12.2022 v1.4.2
 #
 #
 
@@ -32,16 +32,19 @@ echo "$delimiter" >> $logfile
 #echo "attempting docker test" >> /var/log/could-init-output.log
 #sudo docker run hello-world
 
+#edit with tee command maybe
+
 #run package
 echo "make package and run it" >> $logfile
 echo "$delimiter" >> $logfile
-git clone https://gitlab.com/bbwrl/m346-ref-card-03.git >> $logfile
+git clone https://gitlab.com/bbwrl/m346-ref-card-03.git >> $logfile 2>&1
 echo "$delimiter" >> $logfile
 cd m346-ref-card-03
-echo "$delimiter" >> $logfile
-sudo docker compose up --detach >> $logfile
+
+sudo docker compose up --detach >> $logfile 2>&1
 echo "$delimiter" >> $logfile
 sudo mvn package >> $logfile
 echo "$delimiter" >> $logfile
-sudo java -DDB_USERNAME='jokedbuser' -DDB_PASSWORD='123456' -jar target/architecture-refcard-03-0.0.1-SNAPSHOT.jar & >> $logfile
+sudo java -DDB_USERNAME='jokedbuser' -DDB_PASSWORD='123456' -jar target/architecture-refcard-03-0.0.1-SNAPSHOT.jar >> $logfile 2>&1 &
 echo "$delimiter" >> $logfile
+echo "Script finished"
