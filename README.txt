@@ -9,7 +9,11 @@ docker-install.sh
 cloud-init.sh (NICHT REF03 ODER REF04)
 
 ##########################################################
-immer mit SUDO ausführen oder es werden nur Fehler kommen.
+
+BEVOR BENUTZUNG BERECHTIGUNGEN MIT "chmod -R 755 M346_cloud-init" ÄNDERN
+
+SKRIPTS MIT "sudo" STARTEN!!!
+
 ##########################################################
 
 docker-install braucht etwa 40sek um sich zu installieren.
