@@ -7,6 +7,14 @@
 logfile="/var/log/docker_installer_rta.log"
 delimiter="----------------------------------------------"
 runtimeStart=$(date +%s%N)
+errorCode=0
+#check for sudo privileges 
+if [ "$EUID" -ne 0 ]; then
+  errorCode=1
+  echo -e "$delimiter\nError $errorCode: Permissions not found. Please run with sudo enabled.\n$delimiter"
+  exit
+fi
+echo -e "$delimiter\npermissions found. resume script...\n$delimiter" >> $logfile
 
 echo -e "logfile=$logfile\ndelimiter=$delimiter\nruntimeStart=$runtimeStart" >> $logfile
 clear

@@ -14,6 +14,8 @@ BEVOR BENUTZUNG BERECHTIGUNGEN MIT "chmod -R 755 M346_cloud-init" ÄNDERN
 
 SKRIPTS MIT "sudo" STARTEN!!!
 
+BEI BEDARF SKRIPTS MIT "dos2unix" UMÄNDERN!!
+
 ##########################################################
 
 docker-install braucht etwa 40sek um sich zu installieren.

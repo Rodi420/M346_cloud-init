@@ -1,12 +1,23 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.6
+# 16.03.2023 v1.7
 # updated script for M169
 #
+
+
+
 
 logfile="/var/log/docker_installer_rta.log"
 delimiter="----------------------------------------------"
 runtimeStart=$(date +%s%N)
+errorCode=0
+#check for sudo privileges 
+if [ "$EUID" -ne 0 ]; then
+  errorCode=1
+  echo -e "$delimiter\nError $errorCode: Permissions not found. Please run with sudo enabled.\n$delimiter"
+  exit
+fi
+echo -e "$delimiter\npermissions found. resume script...\n$delimiter" >> $logfile
 
 echo -e "logfile=$logfile\ndelimiter=$delimiter\nruntimeStart=$runtimeStart" >> $logfile
 clear
@@ -16,8 +27,6 @@ echo -e "$delimiter\nPlease wait...\n$delimiter" 2>&1 | tee -a $logfile
 
 
 #initial updates
-
-
 echo "update packages" >> $logfile
 echo "$delimiter" >> $logfile
 sudo apt-get update >>$logfile
@@ -41,19 +50,36 @@ echo "$delimiter" >> $logfile
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin --yes >> $logfile
 echo "$delimiter" >> $logfile
 
-#test attempt
+#test docker attempt
 echo "attempt docker test" >> $logfile
 echo "$delimiter" >> $logfile
 sudo docker run hello-world >> $logfile 2>&1
 echo -e "$delimiter\nDocker Installed.\n$delimiter" 2>&1 | tee -a $logfile
 
-
+#start install mysql phpmyadmin.
 echo -e "$delimiter\nStarting MySQL & PhpMyAdmin.\n$delimiter" 2>&1 | tee -a $logfile
+
+#if dos2unix not found install it!!
+package="dos2unix"
+
+if dpkg -s $package >/dev/null 2>&1
+then
+  echo -e "$delimiter\ndos2unix is already installed. Resuming...\n$delimiter" 2>&1 | tee -a $logfile
+else
+  echo -e "$delimiter\ndos2unix was not found. Installing...\n$delimiter" 2>&1 | tee -a $logfile
+  sudo apt-get update
+  sudo apt-get install -y $package
+fi
+
+#convert file or it wont work
+dos2unix docker-compose.yml 2>&1 | tee -a $logfile
+
+#start mysql and phpmyadmin
 sudo docker compose up --detach >> $logfile 2>&1
 
 #displayed on screen and log
-echo -e "$delimiter\nScript finished.\n$delimiter\nSee Log at: '$logfile'\n$delimiter" 2>&1 | tee -a $logfile
-
+echo -e "$delimiter\nScript finished.\n$delimiter\nSee Log at: '$logfile'\n$delimiter\nSee running containers:\n$delimiter" 2>&1 | tee -a $logfile
+sudo docker ps -a 2>&1 | tee -a $logfile
 
 runtimeEnd=$(date +%s%N)
 runtimeDiff=$(($runtimeEnd - $runtimeStart))
@@ -62,5 +88,5 @@ runtimeDiffSec=$(
 	)
 echo -e "runtimeEnd=$runtimeEnd\n$delimiter" >> $logfile
 #displayed on screen and log
-echo -e "${runtimeDiffSec}s elapsed.\n$delimiter" 2>&1 | tee -a $logfile
+echo -e "$delimiter\n${runtimeDiffSec}s elapsed.\n$delimiter" 2>&1 | tee -a $logfile
 
