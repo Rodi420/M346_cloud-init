@@ -5,7 +5,7 @@ enthält ein paar Skripts aus M346
 dazu gehört ein Skript, dass Docker auf Linux installiert. (docker-install.sh)
 
 Skripts die auf dem neusten stand sind:
-docker-install.sh
+docker/*
 cloud-init.sh (NICHT REF03 ODER REF04)
 
 ##########################################################
@@ -20,3 +20,24 @@ BEI BEDARF SKRIPTS MIT "dos2unix" UMÄNDERN!!
 
 docker-install braucht etwa 40sek um sich zu installieren.
 cloud-init braucht etwa 200sek um vollständig zu laufen.
+
+
+##########################################################
+Environments
+##########################################################
+
+php-mysql:
+
+in das Verzeichnis wechseln
+$ docker compose up -d 
+
+#############################
+
+phpmyadmin-mariadb:
+
+shell Skript starten
+oder 
+$ docker compose up -d
+(im gleichen Verzeichnis)
+
+#############################

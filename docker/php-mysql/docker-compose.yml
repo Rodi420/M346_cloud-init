@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  php-apache-environment:
+    container_name: rta-php-apache
+    build:
+    #where dockerfile is located
+      context: ./data
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    #what files will be copied to container (index.php)
+    #./data/src is the local dir where you started compose
+    #/var/ww... is the target on the container
+    volumes:
+      - ./data/src:/var/www/html/
+    ports:
+      - 8080:80
+  #mysql db (mariadb should work too)
+  db:
+    container_name: rta-db
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: rta-db
+      MYSQL_USER: rta-dbuser
+      MYSQL_PASSWORD: '123456'
+    ports:
+      - '9906:3306'
+  #phpmyadmin web ui
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8081:80
+    restart: always
+    environment:
+      PMA_HPST: db
+    depends_on:
+      - db

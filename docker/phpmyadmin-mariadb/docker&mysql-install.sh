@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 16.03.2023 v1.7.1
+# 16.03.2023 v1.8
 # updated script for M169
 #
 # will probably merge this with base install script

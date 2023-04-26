@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.7.1
+# 06.12.2022 v1.8
 # updated script for M169
 #
 
