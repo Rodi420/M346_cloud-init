@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.9
+# 06.12.2022 v1.9.1
 # updated script for M169
 #
 
@@ -11,6 +11,7 @@ delimiter="----------------------------------------------"
   #DO NOT EDIT
 runtimeStart=$(date +%s%N)
 errorCode=0
+customUser=1
 
 #check for sudo privileges 
 if [ "$EUID" -ne 0 ]; then
@@ -59,8 +60,27 @@ echo "$delimiter"
 #add docker group
 echo "creating docker user group"
 echo "$delimiter" 
-newgrp docker
-sudo usermod -aG docker "$USER"
+} >> "$logfile"
+
+if [[ $customUser -eq 1 ]]
+then
+  echo "Current users on this machine:" 2>&1 | tee -a $logfile
+  echo "$delimiter" 2>&1 | tee -a $logfile 
+  cut -d: -f1 /etc/passwd 2>&1 | tee -a $logfile
+  echo "$delimiter" 2>&1 | tee -a $logfile 
+  read -p -r "What user do you want to give full Docker permissions to?: " dockerUser ;
+  sudo usermod -aG docker "$dockerUser"
+  echo "$delimiter" 2>&1 | tee -a $logfile 
+  echo "user $dockerUser has recieved full docker permissions" >> $logfile
+  echo "$delimiter" >> $logfile
+  newgrp docker
+else
+  #by default root will be added
+  sudo usermod -aG docker "$USER"
+  newgrp docker
+fi
+
+{
 echo "created docker user group"
 echo "$delimiter" 
 
