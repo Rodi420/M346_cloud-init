@@ -68,22 +68,20 @@ then
   echo "$delimiter" 2>&1 | tee -a $logfile 
   cut -d: -f1 /etc/passwd 2>&1 | tee -a $logfile
   echo "$delimiter" 2>&1 | tee -a $logfile 
-  read -p -r "What user do you want to give full Docker permissions to?: " dockerUser ;
+  read -r -p "What user do you want to give full Docker permissions to?: " dockerUser ;
   sudo usermod -aG docker "$dockerUser"
   echo "$delimiter" 2>&1 | tee -a $logfile 
   echo "user $dockerUser has recieved full docker permissions" >> $logfile
   echo "$delimiter" >> $logfile
-  newgrp docker
 else
   #by default root will be added
   sudo usermod -aG docker "$USER"
-  newgrp docker
+  dockerUser=$USER
 fi
 
 {
 echo "created docker user group"
 echo "$delimiter" 
-
 
 #test docker functionality
 echo "attempt docker test" >> $logfile
@@ -91,10 +89,9 @@ echo "$delimiter" >> $logfile
 } >> "$logfile"
 docker run hello-world >> $logfile 2>&1
 
-
 #displayed on screen and log
   #script end 
-echo -e "$delimiter\nScript finished.\n$delimiter\nSee Log at: '$logfile'\n$delimiter" 2>&1 | tee -a $logfile
+echo -e "$delimiter\nScript finished.\n$delimiter\nTo use Docker login into '$dockerUser' and run '$ newgrp docker'\n$delimiter\nSee Log at: '$logfile'\n$delimiter\nSee running containers:\n$delimiter" 2>&1 | tee -a $logfile
 
 #math stuff idk
 runtimeEnd=$(date +%s%N)
