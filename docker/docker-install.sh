@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.9.1
+# 06.12.2022 v1.9.3
 # updated script for M169
 #
 
@@ -64,6 +64,7 @@ echo "$delimiter"
 
 if [[ $customUser -eq 1 ]]
 then
+  echo "$delimiter" 2>&1 | tee -a $logfile
   echo "Current users on this machine:" 2>&1 | tee -a $logfile
   echo "$delimiter" 2>&1 | tee -a $logfile 
   cut -d: -f1 /etc/passwd 2>&1 | tee -a $logfile
@@ -91,7 +92,7 @@ docker run hello-world >> $logfile 2>&1
 
 #displayed on screen and log
   #script end 
-echo -e "$delimiter\nScript finished.\n$delimiter\nTo use Docker login into '$dockerUser' and run '$ newgrp docker'\n$delimiter\nSee Log at: '$logfile'\n$delimiter\nSee running containers:\n$delimiter" 2>&1 | tee -a $logfile
+echo -e "$delimiter\nScript finished.\n$delimiter\nTo use Docker login into '$dockerUser' and run '$ newgrp docker'\n$delimiter\nSee Log at: '$logfile'\n$delimiter" 2>&1 | tee -a $logfile
 
 #math stuff idk
 runtimeEnd=$(date +%s%N)
@@ -103,4 +104,4 @@ echo -e "runtimeEnd=$runtimeEnd\n$delimiter" >> $logfile
 
 #displayed on screen and log
   #display elapsed time
-echo -e "$delimiter\n${runtimeDiffSec}s elapsed.\n$delimiter" 2>&1 | tee -a $logfile
+echo -e "\n$delimiter\n${runtimeDiffSec}s elapsed.\n$delimiter" 2>&1 | tee -a $logfile

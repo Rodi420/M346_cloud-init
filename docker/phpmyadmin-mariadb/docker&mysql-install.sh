@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 16.03.2023 v1.9.1
+# 16.03.2023 v1.9.3
 # updated script for M169
 #
 # will probably merge this with base install script
@@ -67,6 +67,7 @@ echo "$delimiter"
 
 if [[ $customUser -eq 1 ]]
 then
+  echo "$delimiter" 2>&1 | tee -a $logfile
   echo "Current users on this machine:" 2>&1 | tee -a $logfile
   echo "$delimiter" 2>&1 | tee -a $logfile 
   cut -d: -f1 /etc/passwd 2>&1 | tee -a $logfile
@@ -132,5 +133,5 @@ echo -e "runtimeEnd=$runtimeEnd\n$delimiter" >> $logfile
 
 #displayed on screen and log
   #display elapsed time
-echo -e "$delimiter\n${runtimeDiffSec}s elapsed.\n$delimiter" 2>&1 | tee -a $logfile
+echo -e "\n$delimiter\n${runtimeDiffSec}s elapsed.\n$delimiter" 2>&1 | tee -a $logfile
 
