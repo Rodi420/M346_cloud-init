@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 16.03.2023 v1.8
+# 16.03.2023 v1.9
 # updated script for M169
 #
 # will probably merge this with base install script
@@ -33,12 +33,14 @@ echo -e "$delimiter\nPlease wait...\n$delimiter" 2>&1 | tee -a $logfile
 
 
 #initial updates
-echo "update packages" >> $logfile
-echo "$delimiter" >> $logfile
-sudo apt-get update >> $logfile
-echo "$delimiter" >> $logfile
-sudo apt-get install ca-certificates curl gnupg lsb-release --yes >> $logfile
-echo "$delimiter" >> $logfile
+{
+echo "update packages" 
+echo "$delimiter" 
+sudo apt-get update 
+echo "$delimiter" 
+sudo apt-get install ca-certificates curl gnupg lsb-release --yes 
+echo "$delimiter" 
+} >> "$logfile"
 
 #prepare docker
 sudo mkdir -p /etc/apt/keyrings
@@ -48,19 +50,29 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
+{
 #install docker packages
-echo "start install docker packages" >>$logfile
-echo "$delimiter" >> $logfile
-sudo apt-get update >> $logfile
-echo "$delimiter" >> $logfile
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin --yes >> $logfile
-echo "$delimiter" >> $logfile
+echo "start install docker packages"
+echo "$delimiter"
+sudo apt-get update 
+echo "$delimiter" 
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin --yes
+echo "$delimiter" 
+
+#add docker group
+echo "creating docker user group"
+echo "$delimiter" 
+newgrp docker
+sudo usermod -aG docker "$USER"
+echo "created docker user group"
+echo "$delimiter" 
+
 
 #test docker functionality
 echo "attempt docker test" >> $logfile
 echo "$delimiter" >> $logfile
-sudo docker run hello-world >> $logfile 2>&1
-echo -e "$delimiter\nDocker Installed.\n$delimiter" 2>&1 | tee -a $logfile
+} >> "$logfile"
+docker run hello-world >> $logfile 2>&1
 
 #start installing mysql & phpmyadmin.
 echo -e "$delimiter\nStarting MySQL & PhpMyAdmin.\n$delimiter" 2>&1 | tee -a $logfile
@@ -72,10 +84,12 @@ then
   echo -e "$delimiter\ndos2unix is already installed. Resuming...\n$delimiter" 2>&1 | tee -a $logfile
 else
   echo -e "$delimiter\ndos2unix was not found. Installing...\n$delimiter" 2>&1 | tee -a $logfile
-  sudo apt-get update >> $logfile
-  echo "$delimiter" >> $logfile
-  sudo apt-get install -y $package >> $logfile
-  echo "$delimiter" >> $logfile
+  {
+  sudo apt-get update 
+  echo "$delimiter" 
+  sudo apt-get install -y $package 
+  echo "$delimiter" 
+  } >> "$logfile"
 fi
 
 #convert file or it wont work
@@ -83,7 +97,7 @@ dos2unix docker-compose.yml 2>&1 | tee -a $logfile
 echo "$delimiter" >> $logfile
 
 #start mysql and phpmyadmin
-sudo docker compose up --detach >> $logfile 2>&1
+docker compose up --detach >> $logfile 2>&1
 
 #displayed on screen and log
   #script end + display active containers

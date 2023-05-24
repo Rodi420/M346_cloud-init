@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.8
+# 06.12.2022 v1.9
 # updated script for M169
 #
 
@@ -30,12 +30,14 @@ clear
 echo -e "$delimiter\nPlease wait...\n$delimiter" 2>&1 | tee -a $logfile
 
 #initial updates
-echo "update packages" >> $logfile
-echo "$delimiter" >> $logfile
-sudo apt-get update >> $logfile
-echo "$delimiter" >> $logfile
-sudo apt-get install ca-certificates curl gnupg lsb-release --yes >> $logfile
-echo "$delimiter" >> $logfile
+{
+echo "update packages" 
+echo "$delimiter" 
+sudo apt-get update 
+echo "$delimiter" 
+sudo apt-get install ca-certificates curl gnupg lsb-release --yes 
+echo "$delimiter" 
+} >> "$logfile"
 
 #prepare docker
 sudo mkdir -p /etc/apt/keyrings
@@ -45,18 +47,30 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
+{ 
 #install docker packages
-echo "start install docker packages" >>$logfile
-echo "$delimiter" >> $logfile
-sudo apt-get update >> $logfile
-echo "$delimiter" >> $logfile
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin --yes >> $logfile
-echo "$delimiter" >> $logfile
+echo "start install docker packages"
+echo "$delimiter"
+sudo apt-get update 
+echo "$delimiter" 
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin --yes
+echo "$delimiter" 
+
+#add docker group
+echo "creating docker user group"
+echo "$delimiter" 
+newgrp docker
+sudo usermod -aG docker "$USER"
+echo "created docker user group"
+echo "$delimiter" 
+
 
 #test docker functionality
 echo "attempt docker test" >> $logfile
 echo "$delimiter" >> $logfile
-sudo docker run hello-world >> $logfile 2>&1
+} >> "$logfile"
+docker run hello-world >> $logfile 2>&1
+
 
 #displayed on screen and log
   #script end 
