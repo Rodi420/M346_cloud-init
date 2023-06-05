@@ -1,6 +1,6 @@
 #!/bin/bash
 # R.Tavares
-# 06.12.2022 v1.10
+# 06.12.2022 v1.10.1
 # 
 #
 
@@ -63,13 +63,16 @@ echo "$delimiter"
 sudo apt-get install -y kubectl
 echo "$delimiter"  
 
+
+#start minikube
+minikube start --force --driver=docker
+
 #install minikube addons
 minikube addons enable ingress
 minikube addons enable dashboard
 minikube addons enable metrics-server
 
-#start minikube
-minikube start --driver=docker
+
 
 
 
