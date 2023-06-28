@@ -1,0 +1,5 @@
+FROM nextcloud
+ENV MYSQL_PASSWORD=123
+ENV MYSQL_DATABASE=nextcloud
+ENV MYSQL_USER=nextcloud
+ENV MYSQL_HOST=mariadb

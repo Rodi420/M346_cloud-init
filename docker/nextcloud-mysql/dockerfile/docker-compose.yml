@@ -1,0 +1,24 @@
+version: '2'
+
+volumes:
+  nextcloud:
+  mariadb:
+
+services:
+  mariadb:
+    #change this if needed
+    image: mariadb-rta:latest
+    restart: always
+    volumes:
+      - mariadb:/var/lib/mysql
+
+  nextcloud:
+    #change this if needed
+    image: nextcloud-rta:latest
+    restart: always
+    ports:
+      - 8080:80
+    links:
+      - mariadb
+    volumes:
+      - nextcloud:/var/www/html
