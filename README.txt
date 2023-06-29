@@ -41,3 +41,13 @@ $ docker compose up -d
 (im gleichen Verzeichnis)
 
 #############################
+
+nextcloud-mysql:
+
+installiert nextcloud mit mariadb auf docker 
+durch compose oder run befehl gestartet
+
+mehr infos:
+./docker/nextcloud-mysql/readme.txt 
+
+#############################

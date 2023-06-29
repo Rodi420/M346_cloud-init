@@ -1,7 +1,9 @@
 version: '2'
 
 volumes:
-  nextcloud:
+  nextcloud-root:
+  nextcloud-config:
+  nextcloud-data:
   mariadb:
 
 services:
@@ -21,4 +23,6 @@ services:
     links:
       - mariadb
     volumes:
-      - nextcloud:/var/www/html
+      - nextcloud-root:/var/www/html
+      - nextcloud-config:/var/www/html/config
+      - nextcloud-data:/var/www/html/data
