@@ -27,15 +27,18 @@ METHOD 2
      |
     \|/
 
-    COMPOSE:
+    COMPOSE (DOES NOT INCLUDE CUSTOM VOLUME LOCATIONS):
         open the yml and change lines 10 and 17 accordingly with "imageName1:version" and "imageName2:version".
         then just do $ docker compose up --detach and open your web browser on localhost:8080.
+
     BASH:
         change the variables $nextcloud_image and $mariadb_image to "imageName1:version" and "imageName2:version" and save.
+        if you want to you can change $custom_dir to change where to store your volumes later.
         then just run the script and open your web browser on localhost:8080.
-    DOCKER RUN:
+        
+    DOCKER RUN (DOES NOT INCLUDE CUSTOM VOLUME LOCATIONS):
         if you fancy not using the script you can run these commands:
-        docker:
+        mariadb:
         $ docker run -d --name "mariadb" --volume mariadb:/var/lib/mysql imageName2:version
         nextcloud:
         $ docker run -d --name "nextcloud" -p 8080:80 --link mariadb:mariadb \
