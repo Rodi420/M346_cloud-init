@@ -1,6 +1,6 @@
 #!/bin/bash
-# R.Tavares
-# 28.06.2023 v1.11.4
+# R. Tavares
+# 28.06.2023 v1.11.5
 # 
 #
 ###########################################
@@ -12,6 +12,14 @@ custom_dir=yourDir
 ###########################################
 
 enable_build=0
+
+#check for sudo privileges
+if [ "$EUID" -ne 0 ]; then
+    error_code=1
+    echo -e "Error $error_code: Permissions not found. Please run with sudo enabled."
+    echo "Reminder to adjust variables if your IMAGES and DIRECTORIES have different names!!!"
+    exit
+fi
 
 echo "Would you like to build images or just run the containers?"
 echo "1. Build and Run"
@@ -34,20 +42,22 @@ then
     echo "What would you like to name this MariaDB version?"
     read -r -p "Input: " mariadb_version ;
 
-    docker build -t "$mariadb_name:$mariadb_version" ./nc
+    docker build -t "$mariadb_name:$mariadb_version" ./db
 
     nextcloud_image="$nextcloud_name:$nextcloud_version"
     mariadb_image="$mariadb_name:$mariadb_version"
 
-fi
+    echo "Do you want to set a custom directory for your Container Volumes?"
+    echo "Default folder is: /$custom_dir/*"
+    echo "1. Yes"
+    echo "2. No"
+    read -r -p "Input: " enable_customDir ;
 
-
-
-#check for sudo privileges
-if [ "$EUID" -ne 0 ]; then
-    errorCode=1
-    echo -e "Error $errorCode: Permissions not found. Please run with sudo enabled."
-    exit
+    if [[ $enable_customDir -eq 1 ]]
+    then
+        echo "What would you like to name your custom directory?"
+        read -r -p "Input: " custom_dir ;
+    fi
 fi
 
 #if any folders missing create them
