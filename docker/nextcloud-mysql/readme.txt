@@ -5,9 +5,17 @@ METHOD 1
 
     $ docker compose up (--detach)
 
-    should work out of the box
+    should work out of the box (DOES NOT INCLUDE CUSTOM VOLUME LOCATIONS)
 ---------------------------------------------------------------------------
 METHOD 2
+---------------------------------------------------------------------------
+    use ./dockerfile/auto-start.sh
+
+    $ sudo ./dockerfile/auto-start.sh
+
+    choose option "Build and Run" and follow instructions
+---------------------------------------------------------------------------
+METHOD 3
 ---------------------------------------------------------------------------
     use docker run...but first build the images
 
@@ -34,8 +42,8 @@ METHOD 2
     BASH:
         change the variables $nextcloud_image and $mariadb_image to "imageName1:version" and "imageName2:version" and save.
         if you want to you can change $custom_dir to change where to store your volumes later.
-        then just run the script and open your web browser on localhost:8080.
-        
+        then just run the script and choose NOT to build the images again and open your web browser on localhost:8080.
+
     DOCKER RUN (DOES NOT INCLUDE CUSTOM VOLUME LOCATIONS):
         if you fancy not using the script you can run these commands:
         mariadb:
