@@ -1,6 +1,6 @@
 #!/bin/bash
 # R. Tavares
-# 28.06.2023 v1.11.10
+# 28.06.2023 v1.11.11
 # 
 #
 ###########################################
@@ -11,7 +11,12 @@ db_image=db1:1
 dir_name=bbw
 nc_port=8080
 ###########################################
-
+# EDIT AT OWN RISK (volume configuration) #
+###########################################
+nc_volRoot=nextcloud-root
+nc_volData=nextcloud-data
+nc_volConf=nextcloud-config
+###########################################
 
 #used in en_conSingle
 nc_on=1
@@ -121,7 +126,7 @@ if [[ $db_on -eq 1 ]] ; then
 fi
 if [[ $nc_on -eq 1 ]] ; then
     #echo "nc_on"
-    docker run -d --name "$nc_conName" -p "$nc_port":80 --link "$db_conName":"$db_conName" --volume /$dir_name/nextcloud-root:/var/www/html --volume /$dir_name/nextcloud-data:/var/www/html/data --volume /$dir_name/nextcloud-config:/var/www/html/config $nc_image
+    docker run -d --name "$nc_conName" -p "$nc_port":80 --link "$db_conName":"$db_conName" --volume /$dir_name/$nc_volRoot:/var/www/html --volume /$dir_name/$nc_volData:/var/www/html/data --volume /$dir_name/$nc_volConf:/var/www/html/config $nc_image
 fi
 
 echo "Nextcloud '$nc_conName' using image '$nc_image' available at: http://localhost:$nc_port"
