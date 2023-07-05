@@ -1,14 +1,14 @@
 #!/bin/bash
 # R. Tavares
-# 28.06.2023 v1.11.9
+# 28.06.2023 v1.11.10
 # 
 #
 ###########################################
 # EDITABLE                                #
 ###########################################
-nc_image=imageName1:latest
-db_image=imageName2:latest
-dir_name=yourDir
+nc_image=nc1:1
+db_image=db1:1
+dir_name=bbw
 nc_port=8080
 ###########################################
 
@@ -31,15 +31,15 @@ if [ "$EUID" -ne 0 ] ; then
 fi
 
 #build images?
-en_build=0
+en_imgBuild=0
 
 echo "Would you like to build images or just run the containers?"
 echo "1. Build and Run"
 echo "2. Run only (Default)"
-read -r -p "Input: " en_build ;
+read -r -p "Input: " en_imgBuild ;
 
 #build images yes
-if [[ $en_build -eq 1 ]] ; then
+if [[ $en_imgBuild -eq 1 ]] ; then
     echo "What image name would you like to use for Nextcloud?"
     read -r -p "Input: " nc_name ;
 
@@ -98,30 +98,19 @@ if [[ $en_conSingle -eq 1 ]] ; then
     fi
 fi
 
-#run default or custom names
+#run default or custom name for NC
 en_conName=0
 
-echo "Do you want to use custom container names?"
-echo "Standard names are: '$nc_conName' and '$db_conName'"
-echo "1. Custom"
-echo "2. Standard (Default)"
-read -r -p "Input: " en_conName ;
+if [[ $nc_on -eq 1 ]] ; then
+    echo "Do you want to use custom container name for NEXTCLOUD?"
+    echo "Standard names are: '$nc_conName' and '$db_conName'"
+    echo "1. Custom"
+    echo "2. Standard (Default)"
+    read -r -p "Input: " en_conName ;
 
-if [[ $en_conName -eq 1 ]] ; then
-    if [[ $nc_on -eq 1 ]] ; then
+    if [[ $en_conName -eq 1 ]] ; then
         echo "What would you like to name your custom container for NEXTCLOUD?"
         read -r -p "Input: " nc_conName ;
-        if [[ $en_conSingle -eq 1 ]] ; then
-            echo "-------------------------------------------------"
-            docker ps -a
-            echo "-------------------------------------------------"
-            echo "What is the container name for MARIADB?"
-            read -r -p "Input: " db_conName ;        
-        fi
-    fi
-    if [[ $db_on -eq 1 ]] ; then
-        echo "What would you like to name your custom container for MARIADB?"
-        read -r -p "Input: " db_conName ;    
     fi
 fi
 
@@ -135,4 +124,4 @@ if [[ $nc_on -eq 1 ]] ; then
     docker run -d --name "$nc_conName" -p "$nc_port":80 --link "$db_conName":"$db_conName" --volume /$dir_name/nextcloud-root:/var/www/html --volume /$dir_name/nextcloud-data:/var/www/html/data --volume /$dir_name/nextcloud-config:/var/www/html/config $nc_image
 fi
 
-echo "Nextcloud '$nc_conName' using image '$nc_image' available at: http://localhost:8080"
+echo "Nextcloud '$nc_conName' using image '$nc_image' available at: http://localhost:$nc_port"
