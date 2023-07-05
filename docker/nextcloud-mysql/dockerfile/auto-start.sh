@@ -1,6 +1,6 @@
 #!/bin/bash
 # R. Tavares
-# 28.06.2023 v1.11.7
+# 28.06.2023 v1.11.8
 # 
 #
 ###########################################
@@ -9,6 +9,7 @@
 nc_image=imageName1:latest
 db_image=imageName2:latest
 dir_name=yourDir
+nc_port=8080
 ###########################################
 
 
@@ -148,11 +149,13 @@ fi
 #run each container
 if [[ $db_on -eq 1 ]]
 then
+    #echo "db_on"
     docker run -d --name "$db_conName" --volume /$dir_name/mariadb:/var/lib/mysql $db_image
 fi
 if [[ $nc_on -eq 1 ]]
 then
-    docker run -d --name "$nc_conName" -p 8080:80 --link "$db_conName":"$db_conName" --volume /$dir_name/nextcloud-root:/var/www/html --volume /$dir_name/nextcloud-data:/var/www/html/data --volume /$dir_name/nextcloud-config:/var/www/html/config $nc_image
+    #echo "nc_on"
+    docker run -d --name "$nc_conName" -p "$nc_port":80 --link "$db_conName":"$db_conName" --volume /$dir_name/nextcloud-root:/var/www/html --volume /$dir_name/nextcloud-data:/var/www/html/data --volume /$dir_name/nextcloud-config:/var/www/html/config $nc_image
 fi
 
 echo "Nextcloud '$nc_conName' using image '$nc_image' available at: http://localhost:8080"

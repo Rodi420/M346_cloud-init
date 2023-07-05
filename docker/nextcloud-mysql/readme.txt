@@ -42,6 +42,7 @@ METHOD 3
     BASH:
         change the variables $nc_image and $db_image to "imageName1:version" and "imageName2:version" and save.
         if you want to you can change $dir_name to change where to store your volumes later.
+        if you want to use a different port chang the variable $nc_port to something else.
         then just run the script and choose NOT to build the images again and open your web browser on localhost:8080.
 
     DOCKER RUN (DOES NOT INCLUDE CUSTOM VOLUME LOCATIONS):
