@@ -1,6 +1,6 @@
 #!/bin/bash
 # R. Tavares
-# 28.06.2023 v1.11.8
+# 28.06.2023 v1.11.9
 # 
 #
 ###########################################
@@ -23,7 +23,7 @@ db_conName=mariadb
 
 
 #check for sudo privileges
-if [ "$EUID" -ne 0 ]; then
+if [ "$EUID" -ne 0 ] ; then
     error_code=1
     echo -e "Error $error_code: Permissions not found. Please run with sudo enabled."
     echo "Reminder to adjust variables if your IMAGES and DIRECTORIES have different names!!!"
@@ -39,8 +39,7 @@ echo "2. Run only (Default)"
 read -r -p "Input: " en_build ;
 
 #build images yes
-if [[ $en_build -eq 1 ]]
-then
+if [[ $en_build -eq 1 ]] ; then
     echo "What image name would you like to use for Nextcloud?"
     read -r -p "Input: " nc_name ;
 
@@ -67,41 +66,19 @@ then
     echo "2. No"
     read -r -p "Input: " en_dirName ;
 
-    if [[ $en_dirName -eq 1 ]]
-    then
+    if [[ $en_dirName -eq 1 ]] ; then
         echo "What would you like to name your custom directory?"
         read -r -p "Input: " dir_name ;
     fi
 fi
 
 #if any folders missing create them
-if [[ ! -d "/${dir_name}" ]]
-then
+if [[ ! -d "/${dir_name}" ]] ; then
     echo "Info: Custom Directory does not exist. Creating it..."
     mkdir "/${dir_name}"
 fi
-if [[ ! -d "/${dir_name}/mariadb" ]]
-then
-    echo "Info: MariaDB Directory does not exist. Creating it..."
-    mkdir "/${dir_name}/mariadb"
-fi
-if [[ ! -d "/${dir_name}/nextcloud-root" ]]
-then
-    echo "Info: Nextcloud Root Directory does not exist. Creating it..."
-    mkdir "/${dir_name}/nextcloud-root"
-fi
-if [[ ! -d "/${dir_name}/nextcloud-data" ]]
-then
-    echo "Info: Nextcloud Data Directory does not exist. Creating it..."
-    mkdir "/${dir_name}/nextcloud-data"
-fi
-if [[ ! -d "/${dir_name}/nextcloud-config" ]]
-then
-    echo "Info: Nextcloud Config Directory does not exist. Creating it..."
-    mkdir "/${dir_name}/nextcloud-config"
-fi
 
-#run only 1 of the containers?
+#run only 1 of the containers
 en_conSingle=0
 
 echo "Do you want to start a single container or both?"
@@ -109,14 +86,12 @@ echo "1. Single"
 echo "2. Both (Default)"
 read -r -p "Input: " en_conSingle ;
 
-if [[ $en_conSingle -eq 1 ]]
-then
+if [[ $en_conSingle -eq 1 ]] ; then
     echo "Which container would you like to start?"
     echo "1. MariaDB"
     echo "2. Nextcloud (Default)"
     read -r -p "Input: "  en_conSingleChoice ;
-    if [[ $en_conSingleChoice -eq 1 ]]
-    then
+    if [[ $en_conSingleChoice -eq 1 ]] ; then
         nc_on=0
     else
         db_on=0
@@ -132,28 +107,30 @@ echo "1. Custom"
 echo "2. Standard (Default)"
 read -r -p "Input: " en_conName ;
 
-if [[ $en_conName -eq 1 ]]
-then
-    if [[ $nc_on -eq 1 ]]
-    then
+if [[ $en_conName -eq 1 ]] ; then
+    if [[ $nc_on -eq 1 ]] ; then
         echo "What would you like to name your custom container for NEXTCLOUD?"
         read -r -p "Input: " nc_conName ;
+        if [[ $en_conSingle -eq 1 ]] ; then
+            echo "-------------------------------------------------"
+            docker ps -a
+            echo "-------------------------------------------------"
+            echo "What is the container name for MARIADB?"
+            read -r -p "Input: " db_conName ;        
+        fi
     fi
-    if [[ $db_on -eq 1 ]]
-    then
+    if [[ $db_on -eq 1 ]] ; then
         echo "What would you like to name your custom container for MARIADB?"
         read -r -p "Input: " db_conName ;    
     fi
 fi
 
 #run each container
-if [[ $db_on -eq 1 ]]
-then
+if [[ $db_on -eq 1 ]] ; then
     #echo "db_on"
     docker run -d --name "$db_conName" --volume /$dir_name/mariadb:/var/lib/mysql $db_image
 fi
-if [[ $nc_on -eq 1 ]]
-then
+if [[ $nc_on -eq 1 ]] ; then
     #echo "nc_on"
     docker run -d --name "$nc_conName" -p "$nc_port":80 --link "$db_conName":"$db_conName" --volume /$dir_name/nextcloud-root:/var/www/html --volume /$dir_name/nextcloud-data:/var/www/html/data --volume /$dir_name/nextcloud-config:/var/www/html/config $nc_image
 fi
