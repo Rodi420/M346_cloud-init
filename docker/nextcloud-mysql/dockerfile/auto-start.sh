@@ -1,6 +1,6 @@
 #!/bin/bash
 # R. Tavares
-# 28.06.2023 v1.11.6
+# 28.06.2023 v1.11.7
 # 
 #
 ###########################################
@@ -133,12 +133,17 @@ read -r -p "Input: " en_conName ;
 
 if [[ $en_conName -eq 1 ]]
 then
-    echo "What would you like to name your custom container for NEXTCLOUD?"
-    read -r -p "Input: " nc_conName ;
-    echo "What would you like to name your custom container for MARIADB?"
-    read -r -p "Input: " db_conName ;    
+    if [[ $nc_on -eq 1 ]]
+    then
+        echo "What would you like to name your custom container for NEXTCLOUD?"
+        read -r -p "Input: " nc_conName ;
+    fi
+    if [[ $db_on -eq 1 ]]
+    then
+        echo "What would you like to name your custom container for MARIADB?"
+        read -r -p "Input: " db_conName ;    
+    fi
 fi
-
 
 #run each container
 if [[ $db_on -eq 1 ]]
