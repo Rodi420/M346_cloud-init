@@ -1,6 +1,6 @@
 <?php
 
-#credentials
+#credentials from docker-compose.yml
 $host = 'mariadb';
 $user = 'rta-dbuser';
 $pass = '123456';

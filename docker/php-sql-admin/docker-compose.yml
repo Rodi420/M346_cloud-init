@@ -9,9 +9,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mariadb
-    #what files will be copied to container (index.php)
+    #what files will be copied/mirrored to container (index.php)
     #./data/src is the local dir where you started compose
     #/var/ww... is the target on the container
+    #anything in /src will be MIRRORED to the /html in the container basically
     volumes:
       - ./data/src:/var/www/html/
     ports:
@@ -26,6 +27,7 @@ services:
       - ./db_data:/var/lib/mysql
       - ./db_start:/docker-entrypoint-initdb.d
     restart: always
+    #adjust INDEX.PHP if you change anyhting here
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MARIADB_DATABASE: rta-db
