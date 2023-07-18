@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+  #php apache lang server
+  php-apache-environment:
+    container_name: rta-php-apache
+    build:
+    #where dockerfile is located
+      context: ./data
+      dockerfile: Dockerfile
+    depends_on:
+      - mariadb
+    #what files will be copied to container (index.php)
+    #./data/src is the local dir where you started compose
+    #/var/ww... is the target on the container
+    volumes:
+      - ./data/src:/var/www/html/
+    ports:
+      - 8080:80
+  #mariadb
+  mariadb:
+    container_name: rta-mariadb
+    image: mariadb:10.8.6
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MARIADB_DATABASE: playerdb
+      MARIADB_USER: playerdbuser
+      MARIADB_PASSWORD: 123456
+  #phpmyadmin web ui
+  phpmyadmin:
+    container_name: rta-myadmin
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8081:80
+    restart: always
+    environment:
+      PMA_HPST: mariadb
+    depends_on:
+      - mariadb
