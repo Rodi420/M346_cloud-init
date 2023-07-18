@@ -27,8 +27,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MARIADB_DATABASE: playerdb
-      MARIADB_USER: playerdbuser
+      MARIADB_DATABASE: rta-db
+      MARIADB_USER: rta-dbuser
       MARIADB_PASSWORD: 123456
   #phpmyadmin web ui
   phpmyadmin:
