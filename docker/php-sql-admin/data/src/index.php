@@ -10,7 +10,7 @@ $mydatabase = 'rta-db';
 $conn = new mysqli($host, $user, $pass, $mydatabase);
 
 #query
-$sql = 'SELECT * FROM user';
+$sql = 'SELECT * FROM `rta-db`.`user`';
 
 #checks if connection is established
 if ($conn->connect_error) {
@@ -32,7 +32,7 @@ foreach ($users as $user) {
         echo "<br>";
         echo "name, password";
         echo "<br>";
-        echo $user->name . "," . $user->password;
+        echo $user->user_name . "," . $user->user_password;
         echo "<br>";
 }
 
