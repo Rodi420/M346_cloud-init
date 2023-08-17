@@ -6,6 +6,13 @@ STARTING
     $ docker compose up (--detach)
 
     should work out of the box
+
+    NOTICE: 
+    There are 2 index.php files. 
+    One has a simple SQL SELECT query.
+    The other involves a simple SQL INSERT query.
+    Both Tables needed for both are included in db_start.sql
+    To browse both in the Web just change the number in the URL.
 ---------------------------------------------------------------------------
 LIVE EDITING & FILES
 ---------------------------------------------------------------------------
