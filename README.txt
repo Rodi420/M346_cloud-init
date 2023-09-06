@@ -1,5 +1,5 @@
 ####################################################################################################################
-# M346_cloud-init v1.12.7
+# M346_cloud-init v1.12.8
 von Rodrigo Tavares
 
 enthält ein paar Skripts aus M346
@@ -8,7 +8,7 @@ zusätzlich sind 4 Environments die verschiedene funktionen abdecken. (siehe unt
 
 Skripts die auf dem neusten stand sind:
 docker/*
-cloud-init.sh (NICHT REF03 ODER REF04)
+kubernetes/*
 
 sämtliche weitere README.txt sind auf Englisch.
 
@@ -29,7 +29,7 @@ cloud-init braucht etwa 200sek um vollständig zu laufen.
                                                     Environments
 ####################################################################################################################
 
-php-mysql: (unstabil)
+php-sql: (unstabil)
 
 installiert php-apache mit mysql verbindung 
 
@@ -38,7 +38,7 @@ $ docker compose up -d
 
 ####################################################################################################################
 
-phpmyadmin-mariadb: (stabil)
+sql-admin: (stabil)
 
 installiert phpmyadmin mit einer mariadb datenbank
 
@@ -47,7 +47,7 @@ $ docker compose up -d
 
 ####################################################################################################################
 
-nextcloud-mysql: (stabil)
+nextcloud-sql: (stabil)
 
 installiert nextcloud mit mariadb auf docker 
 durch compose oder run befehl gestartet
