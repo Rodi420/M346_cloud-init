@@ -38,10 +38,26 @@ fi
 #build images?
 en_imgBuild=0
 
-echo "Would you like to build images or just run the containers?"
-echo "1. Build and Run"
-echo "2. Run only (Default)"
+echo "What would you like to do?"
+echo "1. Build and Run Containers"
+echo "2. Run Containers only (Default)"
+echo "3. Stop running Containers"
 read -r -p "Input: " en_imgBuild ;
+
+if [[ $en_imgBuild -eq 3 ]] ; then
+    #get running container names and IDs
+    en_conInfo=$(docker ps --format '{{.ID}} | {{.Names}}')
+    echo "Running Containers:"
+    echo "$en_conInfo"
+
+    #user input
+    read -p "Enter the name or ID of the container you want to stop: " di_conName
+
+    #stop container 
+    docker stop "$di_conName"
+
+    exit 1
+fi
 
 #build images yes
 if [[ $en_imgBuild -eq 1 ]] ; then
