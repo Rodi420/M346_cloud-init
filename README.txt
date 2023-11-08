@@ -1,5 +1,5 @@
 ####################################################################################################################
-# M346_cloud-init v1.12.9
+# M346_cloud-init v1.13.2
 von Rodrigo Tavares
 
 enthält ein paar Skripts aus M346
@@ -64,5 +64,15 @@ durch compose befehl gestartet
 
 mehr infos:
 ./docker/php-sql-admin/readme.txt 
+
+####################################################################################################################
+
+gitlab-grafana: (stabil)
+
+installiert gitlab-ce mit grafana integrierung auf docker
+durch compose befehl gestartet
+
+mehr infos:
+./docker/gitlab-grafana/readme.txt
 
 ####################################################################################################################
