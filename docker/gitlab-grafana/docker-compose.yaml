@@ -1,0 +1,46 @@
+version: '3.6'
+
+services:
+  rta-gitlab-test:
+    image: 'gitlab/gitlab-ce:latest'
+    container_name: REPLACEyourContainerName
+    restart: always
+    #USE THIS FOR WEB URL DOMAIN OF GITLAB OR USE "external_url = ''" IN OMNIBUS CONFIG
+    hostname: 'REPLACEyourDomain'
+    environment:
+      #TESTED WITH OUTLOOK! GMAIL REFUSES SMTP CONNECTIONS PER ToS
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "smtp-mail.outlook.com"
+        gitlab_rails['smtp_port'] = 587
+        gitlab_rails['smtp_user_name'] = "REPLACEyour@email.adress"
+        gitlab_rails['smtp_password'] = "REPLACEyourPassword"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['gitlab_email_from'] = 'REPLACEyour@email.adress'
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+        gitlab_rails['monitoring_whitelist'] = ['127.0.0.0/8']
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '/REPLACE/your/directory/gitlab/config:/etc/gitlab'
+      - '/REPLACE/your/directory/gitlab/logs:/var/log/gitlab'
+      - '/REPLACE/your/directory/gitlab/data:/var/opt/gitlab'
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: on-failure
+    user: "0"
+    ports:
+      - '3000:3000'
+    environment:
+      - GF_SECURITY_ADMIN_USER=REPLACEyourUser
+      - GF_SECURITY_ADMIN_PASSWORD=REPLACEyourPassword
+    volumes:
+      - '/REPLACE/your/directory/grafana/data:/var/lib/grafana'
+
+
+
+
+
